@@ -1,0 +1,4 @@
+nginx_user: root
+deny_all: false
+allowed_ips: []
+behind_elb: false

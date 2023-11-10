@@ -1,0 +1,5 @@
+{% for item in allowed_ips %}
+allow {{ item }};
+{% endfor %}
+
+deny all;

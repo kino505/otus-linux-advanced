@@ -1,0 +1,65 @@
+- name: configure | create required directories
+  file:
+    path: '{{ item }}'
+    state: directory
+    mode: '0644'
+    owner: "root"
+    group: "root"
+  with_items:
+    - /etc/nginx/conf.d
+    - /etc/nginx/sites-enabled
+    - /etc/nginx/sites-available
+    - /etc/nginx/default.d
+
+
+- name: configure | copy configs from templattes
+  template:
+    src: "{{ role_path }}/files{{ item }}.j2"
+    dest: "{{ item }}"
+    mode: '0644'
+    owner: "root"
+    group: "root"
+  with_items:
+    - /etc/nginx/nginx.conf
+
+
+- name: configure | copy static config files
+  copy:
+    src: "{{ role_path }}/files{{ item }}"
+    dest: "{{ item }}"
+    mode: '0644'
+    owner: "root"
+    group: "root"
+  with_items:
+    - /etc/nginx/conf.d/log_format.conf
+
+
+- name: configure | copy real_ip module config if nginx is working behind lb
+  copy:
+    src: "{{ role_path }}/files/etc/nginx/conf.d/real_ip.conf"
+    dest: "/etc/nginx/conf.d/real_ip.conf"
+    mode: '0644'
+    owner: "root"
+    group: "root"
+  when: behind_elb == true
+
+
+- name: configure | copy deny_all module config if required
+  template:
+    src: "{{ role_path }}/files/etc/nginx/conf.d/zzz-deny_all.conf.j2"
+    dest: "/etc/nginx/conf.d/zzz-deny_all.conf"
+    mode: '0644'
+    owner: "root"
+    group: "root"
+  when: deny_all == true
+
+
+- name: "configure | print potential errors"
+  shell: "nginx -t"
+
+
+- name: configure | reload nginx service
+  service:
+    name: nginx
+    enabled: true
+    state: restarted
