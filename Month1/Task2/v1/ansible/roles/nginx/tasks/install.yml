@@ -1,0 +1,22 @@
+- name: install | packages
+  action: >
+    {{ ansible_pkg_mgr }} name=nginx state=present update_cache=yes
+
+- name: install | reload nginx service
+  service:
+    name: nginx
+    enabled: true
+    state: started
+
+- name: install | ensure nginx group exists
+  group:
+    name: "{{ nginx_user }}"
+    state: present
+
+
+- name: install | ensure nginx user exists
+  user:
+    name: "{{ nginx_user }}"
+    shell: /usr/sbin/nologin
+    group: "{{ nginx_user }}"
+    state: present

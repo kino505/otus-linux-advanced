@@ -1,0 +1,5 @@
+- hosts: web
+  gather_facts: yes
+  become: true
+  roles:
+   - nginx 

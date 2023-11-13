@@ -1,0 +1,69 @@
+{
+    "yc_zone": "ru-central1-a",
+    "environment": "edu",
+    "vpc_name": "edu-vpc",
+    "subnets": {
+        "private": {
+            "a": {
+                "name": "1",
+                "v4_cidr": ["10.1.0.0/24"],
+                "zone": "ru-central1-a"
+            },
+            "b": {
+                "name": "1",
+                "v4_cidr": ["10.2.0.0/24"],
+                "zone": "ru-central1-b"
+            }
+        },
+        "public": {
+            "a": {
+                "name": "1",
+                "v4_cidr": ["10.10.0.0/24"],
+                "zone": "ru-central1-a"
+            },
+            "b": {
+                "name": "1",
+                "v4_cidr": ["10.11.0.0/24"],
+                "zone": "ru-central1-b"
+            }
+        }
+    },
+    "instances": {
+        "nginx": {
+            "name"          : "nginx",
+            "platform_id"   : "standard-v2",
+            "zone"          : "ru-central1-a",
+            "cores"         : 2,
+            "core_fraction" : 5,
+            "preemptible"   : true,
+            "memory"        : 1,
+            "image_family"  : "debian-11",
+            "is_nat"        : true,
+            "boot_disk_size": 10,
+            "secondary_disks": {
+                "data": {
+                    "type": "network-hdd",
+                    "size": 1,
+                    "auto_delete": true
+                },
+                "var": {
+                    "type": "network-hdd",
+                    "size": 1,
+                    "auto_delete": true
+                }
+            }
+        },
+        "php-fpm": {
+            "name"          : "php-fpm",
+            "platform_id"   : "standard-v2",
+            "zone"          : "ru-central1-b",
+            "cores"         : 2,
+            "core_fraction" : 20,
+            "is_nat"        : true,
+            "preemptible"   : true,
+            "memory"        : 1,
+            "image_family"  : "debian-12",
+            "boot_disk_size": 10
+        }
+    }
+}
