@@ -18,14 +18,6 @@ output "private_subnets" {
     value = module.network.private_subnets
 }
 
-output "subnets_by_zone" {
-    value = module.network.subnets_by_zone
-}
-
-# output "private_subnets_by_zone" {
-#     value = module.network.private_subnets_by_zone
-# }
-
 output "instances" {
   description = "The internal IP address of the instance"
   value       = {for k,v in module.instance: k => v}
