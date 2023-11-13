@@ -1,11 +1,11 @@
 module "network" {
-  source   = "git@github.com:kino505/otus-linux-advanced.git//terraform-modules/yc/network?ref=m1-t2"
+  source   = "git@github.com:kino505/otus-linux-advanced.git//terraform-modules/yc/network?ref=master"
   subnets  = var.subnets
   vpc_name = var.vpc_name
 }
 
 module "instance" {
-  source          = "git@github.com:kino505/otus-linux-advanced.git//terraform-modules/yc/compute_instance?ref=m1-t2"
+  source          = "git@github.com:kino505/otus-linux-advanced.git//terraform-modules/yc/compute_instance?ref=master"
   for_each        = toset(keys(var.instances))
   instance        = jsonencode(var.instances[each.key])
   subnet_id       = [for k,v in module.network.public_subnets: v.id if v.zone == var.instances[each.key].zone ][0]

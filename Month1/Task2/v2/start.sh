@@ -1,7 +1,7 @@
 #!/bin/bash
 export APPLICATION=m1-t2
 #export STATE_BUCKET=sf-terraform-prod
-export REF=m1-t2
+export REF=master
 export TF_CLI_ARGS_apply="-auto-approve"
 #export TF_PLUGIN_CACHE_DIR="$HOME/.terraform.d/plugin-cache"
 export REPO=git@github.com:kino505/otus-linux-advanced.git//terraform-modules/yc
